@@ -57,7 +57,7 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo) {
 
 chrome.runtime.onMessage.addListener(
     function (message, sender, sendResponse) {
-        if (PLAYLISTS.hasOwnProperty(message.tabId)) {
+        if (message.tabId in PLAYLISTS) {
             sendResponse({ playlists: PLAYLISTS[message.tabId] });
         } else {
             sendResponse({});

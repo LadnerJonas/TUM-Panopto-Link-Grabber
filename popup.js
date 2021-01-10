@@ -34,6 +34,27 @@ window.onload = function () {
                     const listItem = document.createElement("li");
                     listItem.appendChild(link);
 
+                    const xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState != XMLHttpRequest.DONE) {
+                            return;
+                        }
+
+                        if (xhr.status != 200) {
+                            return;
+                        }
+
+                        const resolutionRegex = /RESOLUTION=(\d+x\d+)/m;
+                        const match = resolutionRegex.exec(xhr.responseText);
+                        if (null != match) {
+                            const resolution = match[1];
+                            const text = document.createTextNode(` (${resolution})`);
+                            listItem.appendChild(text);
+                        }
+                    };
+                    xhr.open("GET", response.playlists[index]);
+                    xhr.send();
+
                     links.appendChild(listItem);
                 }
             }
