@@ -34,6 +34,17 @@ window.onload = function () {
                     const listItem = document.createElement("li");
                     listItem.appendChild(link);
 
+                    if (Hls.isSupported()) {
+                        const video = document.createElement("video");
+                        const hls = new Hls();
+                        hls.attachMedia(video);
+                        hls.on(Hls.Events.MEDIA_ATTACHED, function() {
+                            hls.loadSource(link.href);
+                        });
+                        video.controls = true;
+                        listItem.appendChild(video);
+                    }
+
                     const xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState != XMLHttpRequest.DONE) {
