@@ -17,6 +17,14 @@ window.onload = function () {
     document.getElementById("copy").onclick = copyStreams;
 
     chrome.tabs.getSelected(function (tab) {
+        chrome.tabs.sendMessage(tab.id, {}, function (response) {
+            const commentsArea = document.getElementById("comments");
+            commentsArea.textContent = "";
+            for (comment of response) {
+                commentsArea.textContent += `${comment.time} - ${comment.userName} - ${comment.comment}\n`;
+            }
+        });
+
         chrome.runtime.sendMessage(
             { tabId: tab.id },
             function (response) {

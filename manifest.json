@@ -12,6 +12,12 @@
             "background.js"
         ]
     },
+    "content_scripts": [
+        {
+            "matches": ["*://*.panopto.eu/*"],
+            "js": ["comment_extract.js"]
+        }
+    ],
     "page_action": {
         "default_title": "Panopto M3U8 Finder",
         "default_popup": "popup.html"
