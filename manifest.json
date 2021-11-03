@@ -15,7 +15,7 @@
     "content_scripts": [
         {
             "matches": ["*://*.panopto.eu/*"],
-            "js": ["comment_extract.js"]
+            "js": ["comment_extract.js", "podcast_extract.js"]
         }
     ],
     "page_action": {
