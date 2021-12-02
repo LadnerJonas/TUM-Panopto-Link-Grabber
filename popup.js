@@ -1,7 +1,7 @@
 function copyStreams() {
-    chrome.tabs.getSelected(function (tab) {
+    browser.tabs.query({active: true, windowId: browser.windows.WINDOW_ID_CURRENT}).then(function (tabs) {
         chrome.runtime.sendMessage(
-            { tabId: tab.id },
+            { tabId: tabs[0].id },
             function (response) {
                 if (!("playlists" in response)) {
                     return;
@@ -65,8 +65,8 @@ function buildListOfStreams(list, urls) {
 window.onload = function () {
     document.getElementById("copy").onclick = copyStreams;
 
-    chrome.tabs.getSelected(function (tab) {
-        chrome.tabs.sendMessage(tab.id, "comments", function (response) {
+    browser.tabs.query({active: true, windowId: browser.windows.WINDOW_ID_CURRENT}).then(function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, "comments", function (response) {
             const commentsArea = document.getElementById("comments");
             commentsArea.textContent = "";
             for (comment of response) {
@@ -74,7 +74,7 @@ window.onload = function () {
             }
         });
 
-        chrome.tabs.sendMessage(tab.id, "podcast", function (response) {
+        chrome.tabs.sendMessage(tabs[0].id, "podcast", function (response) {
             if (!response) {
                 return;
             }
@@ -86,7 +86,7 @@ window.onload = function () {
         });
 
         chrome.runtime.sendMessage(
-            { tabId: tab.id },
+            { tabId: tabs[0].id },
             function (response) {
                 if (!("playlists" in response)) {
                     return;

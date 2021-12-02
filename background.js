@@ -12,11 +12,16 @@ chrome.webRequest.onCompleted.addListener(
             return;
         }
 
-        if (!("initiator" in details)) {
+        let origin = null;
+        if (details.initiator) {
+            origin = details.initiator;
+        } else if (details.originUrl) {
+            origin = new URL(details.originUrl).hostname;
+        } else {
             return;
         }
 
-        if (!details.initiator.endsWith(PANOPTO_HOSTNAME_SUFFIX)) {
+        if (!origin.endsWith(PANOPTO_HOSTNAME_SUFFIX)) {
             return;
         }
 
@@ -65,22 +70,12 @@ chrome.runtime.onMessage.addListener(
     }
 );
 
-// When the extension is installed or upgraded ...
-chrome.runtime.onInstalled.addListener(function () {
-    // Replace all rules ...
-    chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
-        // With a new rule ...
-        chrome.declarativeContent.onPageChanged.addRules([
-            {
-                // That fires when a page's URL is from Panopto ...
-                conditions: [
-                    new chrome.declarativeContent.PageStateMatcher({
-                        pageUrl: { hostSuffix: PANOPTO_HOSTNAME_SUFFIX },
-                    })
-                ],
-                // And shows the extension's page action.
-                actions: [new chrome.declarativeContent.ShowPageAction()]
-            }
-        ]);
-    });
-});
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+    if (changeInfo.status === "complete") {
+        if ((new URL(tab.url)).hostname.endsWith(PANOPTO_HOSTNAME_SUFFIX)) {
+            chrome.pageAction.show(tabId);
+        } else {
+            chrome.pageAction.hide(tabId);
+        }
+    }
+})

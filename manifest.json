@@ -1,9 +1,8 @@
 {
     "name": "Panopto M3U8 Finder",
-    "version": "0.1.0",
+    "version": "0.6.0",
     "description": "Retrieves the URLs of all master M3U8 playlists on a Panopto page",
     "permissions": [
-        "declarativeContent",
         "webRequest",
         "*://*/*"
     ],
@@ -22,5 +21,6 @@
         "default_title": "Panopto M3U8 Finder",
         "default_popup": "popup.html"
     },
+    "content_security_policy": "script-src 'self' blob:; object-src 'self';",
     "manifest_version": 2
 }
