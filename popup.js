@@ -1,4 +1,4 @@
-function copyStreams() {
+function copyUrl() {
     browser.tabs.query({active: true, windowId: browser.windows.WINDOW_ID_CURRENT}).then(function (tabs) {
         chrome.runtime.sendMessage(
             { tabId: tabs[0].id },
@@ -6,94 +6,40 @@ function copyStreams() {
                 if (!("playlists" in response)) {
                     return;
                 }
-
-                navigator.clipboard.writeText(response.playlists.join("\n"));
+                navigator.clipboard.writeText(response.playlists);
             }
         );
     });
 }
 
-/**
- * @param {HTMLOListElement | HTMLUListElement} list List to append to
- * @param {string[]} urls URLs of m3u8 video streams
- */
-function buildListOfStreams(list, urls) {
-    for (let index = 0; index < urls.length; ++index) {
-        const link = document.createElement("a");
-        link.href = urls[index];
-        link.text = `Stream ${index + 1}`;
+function copyFFMPEGDownloadCommand() {
 
-        const listItem = document.createElement("li");
-        listItem.appendChild(link);
-
-        if (Hls.isSupported()) {
-            const video = document.createElement("video");
-            const hls = new Hls();
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MEDIA_ATTACHED, function () {
-                hls.loadSource(link.href);
-            });
-            video.controls = true;
-            listItem.appendChild(video);
-        }
-
-        const xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState != XMLHttpRequest.DONE) {
-                return;
+    browser.tabs.query({active: true, windowId: browser.windows.WINDOW_ID_CURRENT}).then(function (tabs) {
+        chrome.runtime.sendMessage(
+            { tabId: tabs[0].id },
+            function (response) {
+                if (!("playlists" in response)) {
+                    return;
+                }
+                let ffmpegCommand = "ffmpeg -i " + response.playlists + " -c copy video.mp4"
+                navigator.clipboard.writeText(ffmpegCommand);
             }
-
-            if (xhr.status != 200) {
-                return;
-            }
-
-            const resolutionRegex = /RESOLUTION=(\d+x\d+)/m;
-            const match = resolutionRegex.exec(xhr.responseText);
-            if (null != match) {
-                const resolution = match[1];
-                const text = document.createTextNode(` (${resolution})`);
-                listItem.appendChild(text);
-            }
-        };
-        xhr.open("GET", urls[index]);
-        xhr.send();
-
-        list.appendChild(listItem);
-    }
+        );
+    });
 }
+function copyFFMPEGAudioExtractCommand() {
+    navigator.clipboard.writeText("ffmpeg -i video.mp4 -acodec copy original-audio.aac");
+}
+function copyFFMPEGCombineCommand() {
+    navigator.clipboard.writeText("ffmpeg -i video.mp4 -i audio.mp3 -vcodec copy -acodec copy -map 0:0 -map 1:0 denoised-video.mp4");
+}
+
+
 
 window.onload = function () {
-    document.getElementById("copy").onclick = copyStreams;
-
-    browser.tabs.query({active: true, windowId: browser.windows.WINDOW_ID_CURRENT}).then(function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, "comments", function (response) {
-            const commentsArea = document.getElementById("comments");
-            commentsArea.textContent = "";
-            for (comment of response) {
-                commentsArea.textContent += `${comment.time} - ${comment.userName} - ${comment.comment}\n`;
-            }
-        });
-
-        chrome.tabs.sendMessage(tabs[0].id, "podcast", function (response) {
-            if (!response) {
-                return;
-            }
-
-            buildListOfStreams(
-                document.getElementById("podcast"),
-                response.Delivery.PodcastStreams.map(stream => stream.StreamUrl)
-            );
-        });
-
-        chrome.runtime.sendMessage(
-            { tabId: tabs[0].id },
-            function (response) {
-                if (!("playlists" in response)) {
-                    return;
-                }
-
-                buildListOfStreams(document.getElementById("links"), response.playlists);
-            }
-        );
-    });
+    document.getElementById("copy-url").onclick = copyUrl;
+    document.getElementById("copy-download").onclick = copyFFMPEGDownloadCommand;
+    document.getElementById("copy-audio").onclick = copyFFMPEGAudioExtractCommand;
+    document.getElementById("copy-combine").onclick = copyFFMPEGCombineCommand;
 };
+

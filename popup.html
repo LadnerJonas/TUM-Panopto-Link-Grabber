@@ -1,21 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <title>Panopto M3U8 Finder</title>
+  <head>
+    <title>TUM Panopto Link Grabber</title>
     <script src="browser-polyfill.min.js"></script>
-    <script src="hls.min.js"></script>
     <script src="popup.js"></script>
-</head>
+  </head>
 
-<body>
-    <h1>Detected streams</h1>
-    <ol id="links"></ol>
-    <button id="copy">Copy all URLs</button>
-    <h1>Podcast</h1>
-    <ol id="podcast"></ol>
-    <h1>Comments</h1>
-    <textarea name="comments" id="comments" cols="30" rows="10"></textarea>
-</body>
-
+  <body width="100px" height="100px">
+    <button id="copy-url">Copy video url</button>
+    <br />
+    <button id="copy-download">Copy ffmpeg download command</button>
+    <br />
+    <button id="copy-audio">Copy extract audio command</button>
+    <br />
+    <button id="copy-combine">Copy combine command</button>
+  </body>
 </html>
