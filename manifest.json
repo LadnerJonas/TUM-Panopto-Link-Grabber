@@ -1,10 +1,11 @@
 {
-    "name": "Panopto M3U8 Finder",
-    "version": "0.6.0",
-    "description": "Retrieves the URLs of all master M3U8 playlists on a Panopto page",
+    "name": "TUM Panopto Link Grabber",
+    "version": "0.7.0",
+    "description": "Retrieves the URL needed to download a video from TUM Panopto",
     "permissions": [
         "webRequest",
-        "*://*/*"
+        "*://*/*",
+        "https://*.cloudfront.net/*"
     ],
     "background": {
         "scripts": [
@@ -14,11 +15,11 @@
     "content_scripts": [
         {
             "matches": ["*://*.panopto.eu/*"],
-            "js": ["comment_extract.js", "podcast_extract.js"]
+            "js": [ "podcast_extract.js"]
         }
     ],
     "page_action": {
-        "default_title": "Panopto M3U8 Finder",
+        "default_title": "TUM Panopto Link Grabber",
         "default_popup": "popup.html"
     },
     "content_security_policy": "script-src 'self' blob:; object-src 'self';",
