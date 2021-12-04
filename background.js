@@ -72,10 +72,15 @@ chrome.runtime.onMessage.addListener(
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     if (changeInfo.status === "complete") {
-        if ((new URL(tab.url)).hostname.endsWith(PANOPTO_HOSTNAME_SUFFIX)) {
-            chrome.pageAction.show(tabId);
-        } else {
-            chrome.pageAction.hide(tabId);
+        try {
+            if ((new URL(tab.url)).hostname.endsWith(PANOPTO_HOSTNAME_SUFFIX)) {
+                chrome.pageAction.show(tabId);
+            } else {
+                chrome.pageAction.hide(tabId);
+            }
+        } catch (error) {
+            
         }
+
     }
 })
