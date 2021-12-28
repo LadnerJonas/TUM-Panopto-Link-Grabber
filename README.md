@@ -39,12 +39,15 @@ Dependencies:
 
 ### Chrome
 
-1. Download the latest source [release][source].
-2. Go to your `chrome://extensions/` and drag & drop the downloaded file.
+1. Clone the Repository.
+2. Go to your `chrome://extensions/`
+3. Activate *Developer Mode*
+4. Load unpacked
+5. Select the repository directory
 
 ### Firefox
 
-1. Download and install the latest [release][firefox-release].
+1. Currently unsupported
 
 ## Shoutout to the upstream repository 🏅
 [mbikovitsky/panopto-m3u8](https://github.com/mbikovitsky/panopto-m3u8)
