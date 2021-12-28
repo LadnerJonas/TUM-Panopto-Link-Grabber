@@ -1,6 +1,6 @@
 {
     "name": "TUM Panopto Link Grabber",
-    "version": "0.7.1",
+    "version": "0.9.0",
     "description": "Retrieves the URL needed to download a video from TUM Panopto",
     "permissions": [
         "webRequest",
