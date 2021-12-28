@@ -8,8 +8,7 @@ A browser extension used to grab links to download and improve audio quality of 
 2. Let the video play for a couple of seconds
 3. Open the extension popup
 
-![image](https://user-images.githubusercontent.com/92096842/147611827-1e7f0b32-8d6e-4621-9277-525b1301c2fc.png)
-
+<p align="center"><img src="https://user-images.githubusercontent.com/92096842/147611827-1e7f0b32-8d6e-4621-9277-525b1301c2fc.png"/></p>
 
 4. Click on the *Copy ffmpeg download command* button (This copies the command to your clipboard)
 5. Open a terminal in your preferred download location
@@ -18,11 +17,11 @@ A browser extension used to grab links to download and improve audio quality of 
 8. Open the extracted audio in [Audacity](https://www.audacity.de/)
 9. Select a few seconds of audio with background noises
 
-![image](https://user-images.githubusercontent.com/92096842/147611388-8cf57263-02f1-4495-8310-7bedfb79e99c.png)
+<p align="center"><img src="https://user-images.githubusercontent.com/92096842/147611388-8cf57263-02f1-4495-8310-7bedfb79e99c.png"/></p>
 
 10. Click on Effect -> Noise Removal -> Get Noise Profile
 
-![image](https://user-images.githubusercontent.com/92096842/147611505-85ff9e86-2342-42b0-820d-964bd8082399.png)
+<p align="center"><img src="https://user-images.githubusercontent.com/92096842/147611505-85ff9e86-2342-42b0-820d-964bd8082399.png"/></p>
 
 11. Select the whole audio via ```STRG+A```
 12. Apply the effect on the whole audio via ```STRG+R```
