@@ -1,10 +1,10 @@
 {
     "name": "TUM Panopto Link Grabber",
-    "version": "0.7.0",
+    "version": "0.7.1",
     "description": "Retrieves the URL needed to download a video from TUM Panopto",
     "permissions": [
         "webRequest",
-        "*://*/*",
+        "*://*.panopto.eu/*",
         "https://*.cloudfront.net/*"
     ],
     "background": {
